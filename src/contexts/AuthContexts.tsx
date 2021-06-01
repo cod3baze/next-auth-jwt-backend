@@ -1,8 +1,8 @@
-import { createContext, useState } from "react";
-import { signRequest } from "../services/auth";
 import Router from "next/router";
+import { createContext, useEffect, useState } from "react";
+import { setCookie, parseCookies } from "nookies";
 
-import { setCookie } from "nookies";
+import { recoverUserInformation, signRequest } from "../services/auth";
 
 type SignInDataType = {
   email: string;
@@ -27,6 +27,14 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState<UserType | null>(null);
 
   const isAuthenticated = !!user;
+
+  useEffect(() => {
+    const { "nextauth.token": token } = parseCookies();
+
+    if (token) {
+      recoverUserInformation().then((response) => setUser(response.user));
+    }
+  }, []);
 
   async function signIn({ email, password }: SignInDataType) {
     const { token, user } = await signRequest({

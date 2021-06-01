@@ -29,3 +29,15 @@ export async function signRequest(data?: ISignRequestData): Promise<IReturn> {
     },
   };
 }
+
+export async function recoverUserInformation() {
+  await delay();
+
+  return {
+    user: {
+      name: "elias alexandre",
+      email: "eliasallex@gmail.com",
+      avatar_url: "https://github.com/eliasallex.png",
+    },
+  };
+}

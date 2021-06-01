@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContexts";
 
 interface IData {
   email: string;
@@ -9,9 +11,10 @@ interface IData {
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
+  const { signIn } = useContext(AuthContext);
 
-  function handleSignIn(data: IData) {
-    console.log(data);
+  async function handleSignIn(data: IData) {
+    await signIn(data);
   }
 
   return (
